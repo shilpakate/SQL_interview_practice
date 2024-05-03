@@ -1,0 +1,104 @@
+create database Happy
+
+use Happy
+-- Create Student table
+CREATE TABLE Student (
+    ID INT PRIMARY KEY,
+    NAME VARCHAR(50)
+);
+
+-- Insert data into Student table
+INSERT INTO Student (ID, NAME) VALUES
+(101, 'John Smith'),
+(102, 'Jane Doe'),
+(103, 'Dean Jones');
+
+-- Create Score table
+CREATE TABLE Score (
+    ID INT,
+    SUBJECT VARCHAR(50),
+    SCORE INT,
+    FOREIGN KEY (ID) REFERENCES Student(ID)
+);
+
+-- Insert data into Score table
+INSERT INTO Score (ID, SUBJECT, SCORE) VALUES
+(101, 'Math', 80),
+(101, 'Science', 95),
+(102, 'Math', 90),
+(102, 'Science', 80),
+(103, 'Math', 88),
+(103, 'Science', 89);
+
+
+
+
+
+
+Given the data below, write a query that will display the subject and the number of students who passed per subject.
+SCOre                                           BASELINE
+
+ID	SUBJECT	  SCORE				SUBJECT	PASS_SCORE
+101	Math	     80			        Math	   80
+101	Science	  95				Science	   85
+102	Math	     90			
+102	Science	  80			
+103	Math	     88			
+103	Science	  89
+
+
+SELECT s.SUBJECT, COUNT(*) as num_passed
+FROM Score s
+JOIN Baseline b ON s.SUBJECT = b.SUBJECT
+WHERE s.SCORE >= b.PASS_SCORE
+GROUP BY s.SUBJECT;
+
+
+
+Given the data below, write a query that will retrieve records whose teams have scores 90 and above.
+
+HOME_TEAM           AWAY_TEAM
+TEAM    SCORE       TEAM    SCORE
+Red     100         North   98
+Blue    95          South   86
+Yellow  75          West    100
+Green   80          East    75
+
+-----------------------
+select Team, Score from Home_team where score>=90
+union 
+select Team, Score from Away_team where score>=90
+
+Given the data below, write a query that will list the name(s) of the student(s) who got the highest score per subject.(3 pts)
+
+STUDENT               SCORE
+ID  NAME            ID  SUBJECT SCORE
+101 John Smith      101 Math    80
+102 Jane Doe        101 Science 95
+103 Dean Jones      102 Math    90
+                    102 Science 80
+                    103 Math    88
+                    103 Science 89
+
+
+--------
+SELECT 
+    Student.NAME,
+    Score.SUBJECT,
+    Score.SCORE
+FROM 
+    Score
+JOIN 
+    Student ON Score.ID = Student.ID
+WHERE 
+    Score.SCORE = (
+        SELECT 
+            MAX(SCORE) 
+        FROM 
+            Score AS s 
+        WHERE 
+            s.SUBJECT = Score.SUBJECT
+    )
+
+
+
