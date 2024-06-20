@@ -1,0 +1,110 @@
+--Given the data below, write a query that will display the subject and the number of students who passed per subject.
+
+select top 2 * from Score1;
+select top 2 * from Baseline
+
+select 
+	s1.subject,
+	count(*) as Total_passed
+	
+from
+	Score1 s1
+Join
+	Baseline B1
+on
+	s1.SUBJECT= B1.Subject
+where
+	s1.score>b1.pass_score
+group by 
+    s1.subject
+
+
+-- 
+Select * from home_team
+select * from away_team
+
+--Given the data below, write a query that will retrieve records whose teams have scores 90 and above.
+
+select * from home_team where score>=90
+union
+
+select * from away_team where score>=90
+
+
+
+--Given the data below, write a query that will list the name(s) of the student(s) who got the highest score per subject.(3 pts)
+select * from score1
+select * from Student
+
+select 
+	s1.*,
+	e1.subject,
+	e1.score as maxscore
+from
+	student s1
+join
+	 score1 e1
+on
+	s1.ID=e1.ID
+where
+	e1.score 
+=
+	(
+	select 
+		min(e1.score) as MAXscore
+		--min(e1.score) as minscore
+	from 
+		score e1
+	where
+	e1.ID=s1.ID
+	)
+  
+  
+
+  
+select 
+	Name
+from 
+	Student
+where
+	ID is not Null
+
+
+
+select
+     ID, count(*) as records
+from
+      Student
+group by 
+     ID
+having 
+      count(*)=1
+
+	  ---Second highest score
+select 
+	id,
+	max(score)
+from
+	score
+where 
+	score < (select max(score) from score)
+group by
+
+-- ID wise score
+SELECT 
+    ID,
+    COUNT(*) AS tt
+FROM
+    SCORE
+GROUP BY
+    ID
+ORDER BY
+    ID
+LIMIT 10 OFFSET 0;
+
+
+
+
+
+
+
